@@ -1,0 +1,18 @@
+services:
+  notion-app-dev:
+    build: 
+      context: .
+      dockerfile: Dockerfile.dev
+    ports:
+      - "3000:3000"
+    volumes:
+      - /usr/app/node_modules
+      - .:/usr/app
+  tests: 
+    build: 
+      context: .
+      dockerfile: Dockerfile.dev
+    volumes:
+      - /usr/app/node_modules
+      - .:/usr/app
+    command: ["npm", "run", "test"]
