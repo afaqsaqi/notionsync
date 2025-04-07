@@ -1,13 +1,19 @@
 services:
-  notion-app-dev:
+  app-dev:
+    container_name: notion-app
     build: 
       context: .
-      dockerfile: Dockerfile.dev
-    ports:
-      - "3000:3000"
+      dockerfile: Dockerfile.prod
     volumes:
       - /usr/app/node_modules
       - .:/usr/app
+    restart: always
+    environment:
+      - NOTION_API_KEY=${NOTION_API_KEY}
+      - MASTER_DB_ID=${MASTER_DB_ID}
+      - NOTION_VERSION=${NOTION_VERSION}
+
+
   tests: 
     build: 
       context: .
@@ -15,4 +21,14 @@ services:
     volumes:
       - /usr/app/node_modules
       - .:/usr/app
-    command: ["npm", "run", "test"]
+    stdin_open: true
+    tty: true
+    command: ["npm", "run", "test:watch"]
+
+  nginx: 
+    container_name: nginx-notion
+    build: 
+      context: .
+      dockerfile: Dockerfile.nginx
+    ports:
+      - 3000:3000
