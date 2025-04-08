@@ -14,16 +14,16 @@ services:
       - NOTION_VERSION=${NOTION_VERSION}
 
 
-  tests: 
-    build: 
-      context: .
-      dockerfile: Dockerfile.dev
-    volumes:
-      - /usr/app/node_modules
-      - .:/usr/app
-    stdin_open: true
-    tty: true
-    command: ["npm", "run", "test:watch"]
+  # tests: 
+  #   build: 
+  #     context: .
+  #     dockerfile: Dockerfile.dev
+  #   volumes:
+  #     - /usr/app/node_modules
+  #     - .:/usr/app
+  #   stdin_open: true
+  #   tty: true
+  #   command: ["npm", "run", "test:watch"]
 
   nginx: 
     container_name: nginx-notion
