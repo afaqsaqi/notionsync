@@ -18,9 +18,10 @@ services:
     hostname: nginx
     build: 
       context: .
-      dockerfile: ./nginx/Dockerfile
+      dockerfile: ./nginx/Dockerfile.dev
     ports:
-      - '80:3000'
+      - '80:80'
+      - '443:443'
 
   # tests: 
   #   build: 
