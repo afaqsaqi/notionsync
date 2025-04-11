@@ -2,8 +2,8 @@ services:
   notion-api:
     hostname: api
     build: 
-      context: ./dockerfiles
-      dockerfile: Dockerfile.prod
+      context: .
+      dockerfile: ./server/Dockerfile
     volumes:
       - /usr/app/node_modules
       - .:/usr/app
@@ -13,14 +13,14 @@ services:
       - MASTER_DB_ID=1c31c70f4d6080c38d8ff031df420ccb
       - NOTION_VERSION=2022-06-28
 
-  nginx: 
+  nginx-s: 
     restart: always
     hostname: nginx
     build: 
       context: .
-      dockerfile: Dockerfile.nginx
+      dockerfile: ./nginx/Dockerfile
     ports:
-      - '3000:3000'
+      - '80:3000'
 
   # tests: 
   #   build: 
