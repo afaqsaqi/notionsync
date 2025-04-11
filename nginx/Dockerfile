@@ -8,9 +8,9 @@ RUN apk add --no-cache \
     openssl \
     && rm -rf /var/cache/apk/*
 
-COPY ./nginx/nginx.conf /etc/nginx/nginx.conf
+COPY ./nginx.conf /etc/nginx/nginx.conf
 
-COPY ./nginx/entrypoint.sh /entrypoint.sh
+COPY ./entrypoint.sh /entrypoint.sh
 RUN chmod +x /entrypoint.sh
 
 CMD ["./entrypoint.sh"]
