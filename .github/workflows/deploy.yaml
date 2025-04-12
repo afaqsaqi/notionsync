@@ -35,7 +35,6 @@ jobs:
           echo "server {" | sed 's/^/      /' >> .ebextensions/certs.config
           echo "  listen 443;" | sed 's/^/      /' >> .ebextensions/certs.config
           echo "  server_name localhost;" | sed 's/^/      /' >> .ebextensions/certs.config
-          echo "  ssl on;" | sed 's/^/      /' >> .ebextensions/certs.config
           echo "  ssl_certificate /etc/pki/tls/certs/server.crt;" | sed 's/^/      /' >> .ebextensions/certs.config
           echo "  ssl_certificate_key /etc/pki/tls/certs/server.key;" | sed 's/^/      /' >> .ebextensions/certs.config
           echo "  ssl_session_timeout 5m;" | sed 's/^/      /' >> .ebextensions/certs.config
