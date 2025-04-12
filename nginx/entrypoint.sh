@@ -5,8 +5,13 @@ DOMAIN=earendeltechnologies.com
 EMAIL=afaqahmad6296@gmail.com
 
 # Start Nginx in the background
-ngin -s stop
+nginx -s stop
+echo "Checking Port 80"
+sudo lsof -i :80
 
+echo "Checking resolution of domain"
+dig $DOMAIN
+dig www.$DOMAIN
 
 # Check if certificates exist, if not, request new ones
 if [ ! -f /etc/letsencrypt/live/$DOMAIN/fullchain.pem ]; then
