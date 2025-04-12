@@ -14,7 +14,6 @@ services:
     restart: always
     hostname: nginx
     volumes:
-      - /etc/letsencrypt/live/earendeltechnologies.com:/etc/ssl/live/earendeltechnologies.com:ro
-      - /etc/letsencrypt/archive:/etc/ssl/archive:ro
+      - /etc/pki/tls/certs/:/etc/pki/tls/certs/
     ports:
       - '80:80'
