@@ -5,17 +5,10 @@ WORKDIR /usr/src/app
 
 COPY package*.json ./
 
-RUN npm install --production=false
+RUN npm install
 
 COPY . .
 
 RUN npm run build
-
-# Production Stage
-FROM node:23-alpine3.21
-
-WORKDIR /usr/src/app
-
-COPY --from=builder /usr/src/app/dist ./dist
 
 CMD ["node", "dist/main"]
