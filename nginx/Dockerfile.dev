@@ -1,4 +1,4 @@
-FROM nginx:alpine
+FROM nginx
 
 # Install Certbot and dependencies
 RUN apk add --no-cache \
