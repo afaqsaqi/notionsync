@@ -41,7 +41,7 @@ jobs:
           echo "  ssl_protocols TLSv1 TLSv1.1 TLSv1.2;" | sed 's/^/      /' >> .ebextensions/certs.config
           echo "  ssl_prefer_server_ciphers on;" | sed 's/^/      /' >> .ebextensions/certs.config
           echo "  location / {" | sed 's/^/      /' >> .ebextensions/certs.config
-          echo "    proxy_pass http://localhost:8081;" | sed 's/^/      /' >> .ebextensions/certs.config
+          echo "    proxy_pass http://docker;" | sed 's/^/      /' >> .ebextensions/certs.config
           echo "    proxy_http_version 1.1;" | sed 's/^/      /' >> .ebextensions/certs.config
           echo "    proxy_set_header Connection \"\";" | sed 's/^/      /' >> .ebextensions/certs.config
           echo "    proxy_set_header Host \$host;" | sed 's/^/      /' >> .ebextensions/certs.config
