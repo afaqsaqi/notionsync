@@ -18,6 +18,55 @@ jobs:
 
       - run: docker push aafu6296/notion-api
       - run: docker push aafu6296/nginx
+
+      - name: Create .ebextensions/certs.config
+        run: |
+          mkdir -p .ebextensions
+          echo "files:" > .ebextensions/certs.config
+          
+          # https.conf
+          echo "  /etc/nginx/conf.d/https.conf:" >> .ebextensions/certs.config
+          echo "    mode: '000644'" >> .ebextensions/certs.config
+          echo "    owner: root" >> .ebextensions/certs.config
+          echo "    group: root" >> .ebextensions/certs.config
+          echo "    content: |" >> .ebextensions/certs.config
+          echo "# HTTPS Server" | sed 's/^/      /' >> .ebextensions/certs.config
+          echo "" | sed 's/^/      /' >> .ebextensions/certs.config
+          echo "server {" | sed 's/^/      /' >> .ebextensions/certs.config
+          echo "  listen 443;" | sed 's/^/      /' >> .ebextensions/certs.config
+          echo "  server_name localhost;" | sed 's/^/      /' >> .ebextensions/certs.config
+          echo "  ssl on;" | sed 's/^/      /' >> .ebextensions/certs.config
+          echo "  ssl_certificate /etc/pki/tls/certs/server.crt;" | sed 's/^/      /' >> .ebextensions/certs.config
+          echo "  ssl_certificate_key /etc/pki/tls/certs/server.key;" | sed 's/^/      /' >> .ebextensions/certs.config
+          echo "  ssl_session_timeout 5m;" | sed 's/^/      /' >> .ebextensions/certs.config
+          echo "  ssl_protocols TLSv1 TLSv1.1 TLSv1.2;" | sed 's/^/      /' >> .ebextensions/certs.config
+          echo "  ssl_prefer_server_ciphers on;" | sed 's/^/      /' >> .ebextensions/certs.config
+          echo "  location / {" | sed 's/^/      /' >> .ebextensions/certs.config
+          echo "    proxy_pass http://docker;" | sed 's/^/      /' >> .ebextensions/certs.config
+          echo "    proxy_http_version 1.1;" | sed 's/^/      /' >> .ebextensions/certs.config
+          echo "    proxy_set_header Connection \"\";" | sed 's/^/      /' >> .ebextensions/certs.config
+          echo "    proxy_set_header Host \$host;" | sed 's/^/      /' >> .ebextensions/certs.config
+          echo "    proxy_set_header X-Real-IP \$remote_addr;" | sed 's/^/      /' >> .ebextensions/certs.config
+          echo "    proxy_set_header X-Forwarded-For \$proxy_add_x_forwarded_for;" | sed 's/^/      /' >> .ebextensions/certs.config
+          echo "    proxy_set_header X-Forwarded-Proto https;" | sed 's/^/      /' >> .ebextensions/certs.config
+          echo "  }" | sed 's/^/      /' >> .ebextensions/certs.config
+          echo "}" | sed 's/^/      /' >> .ebextensions/certs.config
+
+          # server.crt
+          echo "  /etc/pki/tls/certs/server.crt:" >> .ebextensions/certs.config
+          echo "    mode: '000400'" >> .ebextensions/certs.config
+          echo "    owner: root" >> .ebextensions/certs.config
+          echo "    group: root" >> .ebextensions/certs.config
+          echo "    content: |" >> .ebextensions/certs.config
+          echo "${{ secrets.SERVER_CRT }}" | sed 's/^/      /' >> .ebextensions/certs.config
+
+          # server.key
+          echo "  /etc/pki/tls/certs/server.key:" >> .ebextensions/certs.config
+          echo "    mode: '000400'" >> .ebextensions/certs.config
+          echo "    owner: root" >> .ebextensions/certs.config
+          echo "    group: root" >> .ebextensions/certs.config
+          echo "    content: |" >> .ebextensions/certs.config
+          echo "${{ secrets.SERVER_KEY }}" | sed 's/^/      /' >> .ebextensions/certs.config
  
       - name: Generate deployment package
         run: zip -r deploy.zip . -x '*.git*'
@@ -28,7 +77,7 @@ jobs:
           aws_access_key: ${{ secrets.AWS_ACCESS_KEY }}
           aws_secret_key: ${{ secrets.AWS_SECRET_KEY }}
           application_name: Notion
-          environment_name: Notion-env
+          environment_name: Notion-env-2
           existing_bucket_name: elasticbeanstalk-ap-south-1-203918860171
           region: ap-south-1
           version_label: ${{ github.sha }}

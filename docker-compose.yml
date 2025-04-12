@@ -17,5 +17,4 @@ services:
       - /etc/letsencrypt/live/earendeltechnologies.com:/etc/ssl/live/earendeltechnologies.com:ro
       - /etc/letsencrypt/archive:/etc/ssl/archive:ro
     ports:
-      - '443:443'
       - '80:80'
