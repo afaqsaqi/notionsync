@@ -16,4 +16,5 @@ services:
     volumes:
       - /etc/pki/tls/certs/:/etc/pki/tls/certs/
     ports:
-      - '8000:80'
+      - '80:80'
+      - '443:443'
