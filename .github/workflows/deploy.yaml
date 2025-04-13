@@ -48,7 +48,7 @@ jobs:
           echo "files:" > .ebextensions/certs.config
 
           # server.crt
-          echo "  /etc/pki/tls/certs/server.crt:" >> .ebextensions/certs.config
+          echo "  /etc/pki/tls/certs/fullchain.pem:" >> .ebextensions/certs.config
           echo "    mode: '000400'" >> .ebextensions/certs.config
           echo "    owner: root" >> .ebextensions/certs.config
           echo "    group: root" >> .ebextensions/certs.config
