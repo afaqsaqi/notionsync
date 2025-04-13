@@ -17,4 +17,3 @@ services:
       - /etc/pki/tls/certs/:/etc/pki/tls/certs/
     ports:
       - '80:80'
-      - '443:443'
