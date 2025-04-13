@@ -19,6 +19,29 @@ jobs:
       - run: docker push aafu6296/notion-api
       - run: docker push aafu6296/nginx
 
+      - name: Create .ebextensions/01-docker-auth.config
+        run: |
+          mkdir -p .ebextensions
+          echo "files:" > .ebextensions/01-docker-auth.config
+
+          # Prepare base64-encoded Docker credentials
+          AUTH_STRING=$(echo -n "${{ secrets.DOCKER_USERNAME }}:${{ secrets.DOCKER_PASSWORD }}" | base64)
+
+          # Write Docker config.json using encoded auth string
+          echo "  \"/root/.docker/config.json\":" >> .ebextensions/01-docker-auth.config
+          echo "    mode: '000600'" >> .ebextensions/01-docker-auth.config
+          echo "    owner: root" >> .ebextensions/01-docker-auth.config
+          echo "    group: root" >> .ebextensions/01-docker-auth.config
+          echo "    content: |" >> .ebextensions/01-docker-auth.config
+          echo "      {" >> .ebextensions/01-docker-auth.config
+          echo "        \"auths\": {" >> .ebextensions/01-docker-auth.config
+          echo "          \"https://index.docker.io/v1/\": {" >> .ebextensions/01-docker-auth.config
+          echo "            \"auth\": \"${AUTH_STRING}\"" >> .ebextensions/01-docker-auth.config
+          echo "          }" >> .ebextensions/01-docker-auth.config
+          echo "        }" >> .ebextensions/01-docker-auth.config
+          echo "      }" >> .ebextensions/01-docker-auth.config
+
+
       - name: Create .ebextensions/certs.config
         run: |
           mkdir -p .ebextensions
