@@ -8,6 +8,11 @@ services:
       - MASTER_DB_ID=$MASTER_DB_ID
       - NOTION_VERSION=2022-06-28
 
+  earendel-app:
+    image: aafu6296/web-app:latest
+    hostname: earendel-app
+    restart: always
+
   nginx: 
     image: aafu6296/nginx:latest
     mem_limit: 128m
