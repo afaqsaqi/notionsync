@@ -3,25 +3,17 @@ services:
     hostname: api
     build: 
       context: .
-      dockerfile: ./server/Dockerfile
+      dockerfile: ./server/Dockerfile.dev
     volumes:
       - /usr/app/node_modules
       - .:/usr/app
     restart: always
     environment:
-      - NOTION_API_KEY=ntn_U76346361283GeUIBz86OiG3h94NNHHytZj07Ml3qU4fPx
-      - MASTER_DB_ID=1c31c70f4d6080c38d8ff031df420ccb
+      - NOTION_API_KEY=$NOTION_API_KEY
+      - MASTER_DB_ID=$MASTER_DB_ID
       - NOTION_VERSION=2022-06-28
-
-  nginx-s: 
-    restart: always
-    hostname: nginx
-    build: 
-      context: .
-      dockerfile: ./nginx/Dockerfile.dev
     ports:
-      - '80:80'
-      - '443:443'
+      - '3000:3050'
 
   # tests: 
   #   build: 

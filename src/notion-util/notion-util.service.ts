@@ -174,4 +174,38 @@ export class NotionUtilService {
             },
         };
     }
+
+    async replacePageContent(targetPageId: string, sourcePageId: string) {
+        try {
+            // 1. Fetch source blocks
+            const sourceBlocks = await axios.get(
+                `https://api.notion.com/v1/blocks/${sourcePageId}/children`,
+                { headers: this.headers }
+            );
+
+            const existingBlocks = await axios.get(
+                `https://api.notion.com/v1/blocks/${targetPageId}/children`,
+                { headers: this.headers }
+            );
+
+            for (const block of existingBlocks.data.results) {
+                await axios.delete(`https://api.notion.com/v1/blocks/${block.id}`, {
+                    headers: this.headers,
+                });
+            }
+
+            for (const block of sourceBlocks.data.results) {
+                await axios.patch(
+                    `https://api.notion.com/v1/blocks/${targetPageId}/children`,
+                    { children: [block] },
+                    { headers: this.headers }
+                );
+            }
+
+            this.logger.log(`Replaced content of page ${targetPageId} with blocks from ${sourcePageId}`);
+        } catch (error) {
+            this.logger.error(`Error syncing block content`, error.response.data || error.message);
+        }
+    }
+
 }
