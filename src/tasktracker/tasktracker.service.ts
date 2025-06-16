@@ -64,7 +64,7 @@ export class TasktrackerService {
                             }
                         }
                     });
-                    await this.notionUtilService.replacePageContent(targetItemId, item.id);
+                    // await this.notionUtilService.replacePageContent(targetItemId, item.id);
                 } else {
                     sourceItem.properties.CID = {
                         rich_text: [
@@ -81,7 +81,7 @@ export class TasktrackerService {
                         const newItem = await this.notionUtilService.createNewItemInDatabase(CDBID, sourceItem);
                         if (newItem.id) {
                             await this.notionUtilService.updateMasterDatabaseItem(item.id, newItem.id);
-                            await this.notionUtilService.replacePageContent(newItem.id, item.id);
+                            // await this.notionUtilService.replacePageContent(newItem.id, item.id);
                         }
                     }
                 }
@@ -151,7 +151,7 @@ export class TasktrackerService {
                         }
                     });
                 }
-                await this.notionUtilService.replacePageContent(targetItemId, item.id);
+                // await this.notionUtilService.replacePageContent(targetItemId, item.id);
             }
         } catch (error) {
             this.logger.error('Error syncing slave database to master database', error);
