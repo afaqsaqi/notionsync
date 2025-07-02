@@ -63,7 +63,7 @@ jobs:
           echo "    content: |" >> .ebextensions/certs.config
           echo "${{ secrets.SERVER_KEY }}" | sed 's/^/      /' >> .ebextensions/certs.config
  
-      - name: Generate deployment package
+      - name: Generate deployment package 
         run: zip -r deploy.zip . -x '*.git*' 
  
       - name: Deploy to EB
