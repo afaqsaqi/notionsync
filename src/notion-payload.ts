@@ -81,3 +81,4 @@ export interface NotionSlaveItem {
         StatusText: NotionRichText;
     };
 }
+
